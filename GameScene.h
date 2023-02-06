@@ -7,6 +7,7 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include <DirectXMath.h>
+#include "Light.h"
 
 /// <summary>
 /// ゲームシーン
@@ -60,7 +61,7 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	Sprite* spriteBG = nullptr;
-
+	Light* light = nullptr;
 	Model* modelSkydome = nullptr;
 	Model* modelGround = nullptr;
 	Model* modelFighter = nullptr;

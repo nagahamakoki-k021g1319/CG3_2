@@ -8,6 +8,7 @@
 #include <string>
 #include "Model.h"
 #include "Camera.h"
+#include "Light.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -37,7 +38,10 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
-		XMMATRIX mat;	// ３Ｄ変換行列
+		/*XMMATRIX mat;*/	// ３Ｄ変換行列
+		XMMATRIX veiwproj;  //ビュープロジェクション行列
+		XMMATRIX world;		//ワールド行列
+		XMFLOAT3 cameraPos;	//カメラ座標 (ワールド座標)
 	};
 
 private: // 定数
@@ -79,6 +83,10 @@ public: // 静的メンバ関数
 	/// <returns></returns>
 	static Object3d* Create();
 
+	/// <summary>
+	/// 回転角の取得
+	/// </summary>
+	const XMFLOAT3& GetRotation() { return rotation; }
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
@@ -88,7 +96,8 @@ private: // 静的メンバ変数
 	static PipelineSet pipelineSet;
 	// カメラ
 	static Camera* sCamera_;
-
+	//ライト
+	static Light* light;
 public: // メンバ関数
 	bool Initialize();
 	/// <summary>
@@ -129,6 +138,12 @@ public: // メンバ関数
 
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
 
+	/// <summary>
+	/// ライトのセット
+	/// </summary>
+	static void SetLight(Light* light) {
+		Object3d::light = light;
+	}
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
@@ -149,5 +164,6 @@ private: // メンバ変数
 	bool isBillboard = false;
 	// 定数バッファのマップ
 	ConstBufferDataB0* constMap = nullptr;
+
 };
 
